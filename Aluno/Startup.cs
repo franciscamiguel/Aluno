@@ -1,4 +1,5 @@
 ﻿
+using AlunoApi.Bussiness;
 using AlunoApi.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,9 @@ namespace AlunoApi
                 );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IRepositorio, Repositorio>();
+
+            services.AddCors();
+            services.AddScoped<AlunoBussiness>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +49,8 @@ namespace AlunoApi
 
              //app.UseHttpsRedirection();
             app.UseHsts();
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
 

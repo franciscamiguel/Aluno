@@ -14,14 +14,13 @@ namespace AlunoApi.Controllers
     [ApiController]
     public class AlunoController : ControllerBase
     {
-        private readonly IRepositorio repositorio;
         public readonly AlunoBussiness alunoBusiness;
 
-        public AlunoController(IRepositorio repositorio, AlunoBussiness alunoBusiness)
+        public AlunoController(AlunoBussiness alunoBusiness)
         {
-            this.repositorio = repositorio;
             this.alunoBusiness = alunoBusiness;
         }
+
         /// <summary>
         /// Read
         /// </summary>
@@ -57,8 +56,8 @@ namespace AlunoApi.Controllers
             return Ok(_aluno);
         }
 
-        [HttpPut("atualizar-aluno/{id}")]
-        public async Task<ActionResult> AtualizarAluno(Alluno aluno)
+        [HttpPut("atualizar-aluno")]
+        public async Task<ActionResult> AtualizarAluno([FromBodyAttribute] Alluno aluno)
         {
 
             var _aluno = await alunoBusiness.AtualizarAluno(aluno);
@@ -67,11 +66,12 @@ namespace AlunoApi.Controllers
 
         }
 
-        [HttpDelete("excluir-aluno")]
-        public async Task<ActionResult> ExcluirAluno(Alluno aluno)
+        [HttpDelete("excluir-aluno/{id}")]
+        public async Task<ActionResult> ExcluirAluno(int id)
         {
-            repositorio.ExcluirAluno(aluno);
+            var aluno = alunoBusiness.BuscarAluno(id);
 
+            alunoBusiness.ExcluirAluno(aluno);
             return Ok();
         }
 

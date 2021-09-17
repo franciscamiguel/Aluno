@@ -47,5 +47,11 @@ namespace AlunoApi.Bussiness
             return null;
 
         }
+
+        public async void ExcluirAluno(Alluno aluno)
+        {
+            repositorio.ExcluirAluno(aluno);
+            await repositorio.Salvar();
+        }
     }
 }
